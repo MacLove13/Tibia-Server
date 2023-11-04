@@ -1,0 +1,1 @@
+{"version":3,"file":"movementation.js","sourceRoot":"/","sources":["utils/interface/movementation.ts"],"names":[],"mappings":";;AAGqD,CAAC","sourcesContent":["import { Vector2D } from '@utils/interface/vector2d';\n\nexport interface MoveData { Rot: Rotation; Pos: Vector2D }\nexport const enum Rotation { Down, Top, Right, Left };\n"]}

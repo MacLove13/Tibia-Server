@@ -1,0 +1,1 @@
+{"version":3,"file":"interface.js","sourceRoot":"/","sources":["game/mob/spawn/interface.ts"],"names":[],"mappings":"","sourcesContent":["import { Vector2D } from '@utils/interface/vector2d';\n\nexport interface SpawnData {\n    Position: Vector2D;\n    Count: number\n}\n"]}

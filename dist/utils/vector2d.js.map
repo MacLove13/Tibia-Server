@@ -1,0 +1,1 @@
+{"version":3,"file":"vector2d.js","sourceRoot":"/","sources":["utils/vector2d.ts"],"names":[],"mappings":"","sourcesContent":["export interface Vector2D { x: number; y: number; }\n"]}

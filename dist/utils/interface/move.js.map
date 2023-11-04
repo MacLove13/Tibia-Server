@@ -1,0 +1,1 @@
+{"version":3,"file":"move.js","sourceRoot":"/","sources":["utils/interface/move.ts"],"names":[],"mappings":";;AACqD,CAAC","sourcesContent":["export interface MoveData { Rot: Rotation; Pos: Vector2D }\nexport const enum Rotation { Down, Top, Right, Left };\n"]}

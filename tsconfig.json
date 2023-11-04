@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "target": "es6",
+    "module": "commonjs",
+    "outDir": "./dist",
+    "strict": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "strictPropertyInitialization": false,
+    "paths": {
+      "@socket/*": ["src/internal/*"],
+      "@database/*": ["src/database/*"],
+      "@game/*": ["src/game/*"],
+      "@utils/*": ["src/utils/*"],
+    },
+    "sourceMap": true,
+    "inlineSources": true,
+    "sourceRoot": "/"
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": ["node_modules", "**/*.spec.ts"]
+}

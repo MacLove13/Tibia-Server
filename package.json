@@ -1,0 +1,28 @@
+{
+  "name": "TibiaServerJS",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "MacLove13 <felipe.mourabarbosa@hotmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@sentry/node": "^7.77.0",
+    "@sentry/profiling-node": "^1.2.6",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "pg": "^8.11.3",
+    "sequelize": "^6.34.0",
+    "socket.io": "^4.7.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.20",
+    "@types/node": "^20.8.10",
+    "@types/socket.io": "^3.0.2",
+    "nodemon": "^3.0.1",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.2.2"
+  },
+  "scripts": {
+    "dev": "nodemon && yarn sentry:sourcemaps"
+  }
+}
