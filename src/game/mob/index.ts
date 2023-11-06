@@ -1,12 +1,12 @@
 import { Character } from '@game/character/interface';
-import { CharacterDataToSync } from '@game/character';
+import { mobDataSync } from '@game/mob/dataSync';
 import { Vector2D, MoveData } from '@utils/interface';
 
 import '@game/mob/movimentation';
 import '@game/mob/attack';
 
 export class Mob implements Character {
-  syncData: CharacterDataToSync;
+  syncData: mobDataSync;
   lastMoveTime = 0;
   moveDelay = 35000;
   LastAttackTime = 0;
@@ -14,7 +14,7 @@ export class Mob implements Character {
   targetChar: Character | null;
 
   constructor(mobType: string, pos: Vector2D) {
-    this.syncData = new CharacterDataToSync(mobType);
+    this.syncData = new mobDataSync(mobType);
     this.syncData.Position = pos;
     this.moveDelay = 35000 / this.syncData.Speed;
   }
