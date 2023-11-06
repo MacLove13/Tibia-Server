@@ -2,8 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Mob = void 0;
 const dataSync_1 = require("@game/mob/dataSync");
-require("@game/mob/movimentation");
-require("@game/mob/attack");
 class Mob {
     constructor(mobType, pos) {
         this.lastMoveTime = 0;
@@ -31,4 +29,7 @@ class Mob {
     }
 }
 exports.Mob = Mob;
+require("@game/mob/movementation");
+require("@game/mob/attack");
+require("@game/mob/stream");
 //# sourceMappingURL=index.js.map

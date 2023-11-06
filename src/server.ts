@@ -12,11 +12,14 @@ import '@socket/socket';
 
 import '@game/map/update';
 import '@game/player/events/connection';
+import * as Server from '@server/index';
 
 async function Initialize() {
   console.log('Start server');
   await Database.init();
   await Map.init();
+
+  Server.Start();
 
   server.listen(2137, () => {
     console.log('WebSocket server running on port 2137.');
@@ -30,3 +33,6 @@ app.get('/health', (req, res) => {
 import './sentry';
 
 Initialize();
+
+
+

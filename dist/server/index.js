@@ -23,37 +23,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.mobDataSync = void 0;
-const GameState = __importStar(require("@game/state"));
-class mobDataSync {
-    toJSON() {
-        return {
-            Position: this.Position,
-            Speed: this.Speed,
-            HP: this.HP,
-            MaxHP: this.MaxHP,
-            Race: this.Race,
-            ID: this.ID,
-            Level: this.Level,
-            Attack: this.Attack,
-            InLayer: this.InLayer,
-        };
-    }
-    constructor(race) {
-        this.ID = mobDataSync.lastID.toString();
-        this.Race = race;
-        const mobConfig = GameState.config.Mobs[this.Race];
-        if (mobConfig) {
-            this.Speed = mobConfig.Speed;
-            this.ExpAtDead = mobConfig.Experience;
-            this.MaxHP = mobConfig.HP;
-            this.HP = mobConfig.HP;
-        }
-        this.Attack = 0;
-        this.InLayer = 0;
-        mobDataSync.lastID++;
-    }
+exports.Start = void 0;
+const ServerLoop = __importStar(require("@server/loop"));
+function Start() {
+    ServerLoop.Init();
 }
-exports.mobDataSync = mobDataSync;
-mobDataSync.lastID = 0;
-//# sourceMappingURL=dataSync.js.map
+exports.Start = Start;
+//# sourceMappingURL=index.js.map

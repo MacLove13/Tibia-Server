@@ -6,7 +6,7 @@ import { serverEvent } from '@events';
 
 export const serverSocket = new SocketIO.Server(server, {
   cors: {
-    origin: ["http://127.0.0.1:3000", "http://localhost:3000"], // Allowing both local addresses
+    origin: ["http://127.0.0.1:3000", "http://localhost:3000", "http://127.0.0.1:2137"], // Allowing both local addresses
     methods: ["GET", "POST"],
     credentials: true,
   }

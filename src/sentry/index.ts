@@ -15,7 +15,7 @@ const sentryDNS = process.env.SENTRY_DNS || null;
 
 if (!disabledSentry && sentryDNS && sentryDNS.length > 5) {
   Sentry.init({
-    dsn: '',
+    dsn: sentryDNS,
     integrations: [
       // enable HTTP calls tracing
       new Sentry.Integrations.Http({ tracing: true }),

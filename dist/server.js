@@ -47,11 +47,13 @@ exports.server = (0, http_1.createServer)(exports.app);
 require("@socket/socket");
 require("@game/map/update");
 require("@game/player/events/connection");
+const Server = __importStar(require("@server/index"));
 function Initialize() {
     return __awaiter(this, void 0, void 0, function* () {
         console.log('Start server');
         yield Database.init();
         yield Map.init();
+        Server.Start();
         exports.server.listen(2137, () => {
             console.log('WebSocket server running on port 2137.');
         });

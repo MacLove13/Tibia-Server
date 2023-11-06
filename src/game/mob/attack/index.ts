@@ -41,6 +41,8 @@ Mob.prototype.Hit = function (dmg: number): { Exp: number } | undefined {
     this.Kill();
     return { Exp: this.syncData.ExpAtDead };
   }
+
+  return { Exp: this.syncData.ExpAtDead }; // Remove on uncomment code
 }
 
 Mob.prototype.Kill = function (): void {

@@ -23,21 +23,25 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Stop = exports.Start = void 0;
+exports.Stop = exports.Init = void 0;
 const GameState = __importStar(require("@game/state"));
 const spawn_1 = require("@game/mob/spawn");
+// @ts-ignore - Ignore the following TypeScript error
 var intervalHandle;
 var spawnList = new Array();
-function Start() {
+function Init() {
+    console.log("Server Loop Started");
     intervalHandle = setInterval(ServerInterval, 50);
     // Load Mobs from Data
     for (var i = 0; i < GameState.config.MobSpawns.length; i++) {
-        spawnList.push(new spawn_1.Spawn(GameState.config.MobSpawns[i].Position.x, GameState.config.MobSpawns[i].Position.y));
-        spawnList[i].MaintainMobCount(GameState.config.MobSpawns[i].Count);
-        spawnList[i].DefineMobsInSpawn(GameState.config.MobSpawns[i].Mobs);
+        var mobSpawn = GameState.config.MobSpawns[i];
+        var spawn = new spawn_1.Spawn(mobSpawn.Position.x, mobSpawn.Position.y);
+        spawnList.push(spawn);
+        spawnList[i].MaintainMobCount(mobSpawn.Count);
+        spawnList[i].DefineMobsInSpawn(mobSpawn.Mobs);
     }
 }
-exports.Start = Start;
+exports.Init = Init;
 function Stop() {
     if (intervalHandle)
         clearInterval(intervalHandle);

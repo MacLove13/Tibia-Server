@@ -87,7 +87,7 @@ class Spawn {
             x: ((Math.random() - 0.5) * 4 + this.pos.x) | 0,
             y: ((Math.random() - 0.5) * 4 + this.pos.y) | 0
         });
-        if (state_1.ground.GetCollision(0, char.syncData.Position.x, char.syncData.Position.y))
+        if (state_1.ground.GetCollision(char.syncData.InLayer, char.syncData.Position.x, char.syncData.Position.y))
             return;
         char.SelfAnnouce();
         state_1.characterList.AddNewMob(char);

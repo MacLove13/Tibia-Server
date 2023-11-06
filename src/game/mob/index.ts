@@ -2,9 +2,6 @@ import { Character } from '@game/character/interface';
 import { mobDataSync } from '@game/mob/dataSync';
 import { Vector2D, MoveData } from '@utils/interface';
 
-import '@game/mob/movimentation';
-import '@game/mob/attack';
-
 export class Mob implements Character {
   syncData: mobDataSync;
   lastMoveTime = 0;
@@ -82,3 +79,6 @@ export class Mob implements Character {
   TileCanMove(layer: number, x: number, y: number): boolean;
 }
 
+import '@game/mob/movementation';
+import '@game/mob/attack';
+import '@game/mob/stream';

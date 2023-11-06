@@ -12,7 +12,7 @@ export class Spawn {
   private spawnableMobs = new Array<string>();
 
   constructor(posX: number, posY: number) {
-    this.pos = {x: posX, y: posY};
+    this.pos = { x: posX, y: posY };
   }
 
   MaintainMobCount(count: number) {
@@ -82,7 +82,7 @@ export class Spawn {
         }
       );
 
-      if (ground.GetCollision(0, char.syncData.Position.x, char.syncData.Position.y))
+      if (ground.GetCollision(char.syncData.InLayer, char.syncData.Position.x, char.syncData.Position.y))
         return;
       
       char.SelfAnnouce();

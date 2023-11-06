@@ -62,6 +62,7 @@ mob_1.Mob.prototype.Hit = function (dmg) {
         this.Kill();
         return { Exp: this.syncData.ExpAtDead };
     }
+    return { Exp: this.syncData.ExpAtDead }; // Remove on uncomment code
 };
 mob_1.Mob.prototype.Kill = function () {
     this.syncData.HP = -1;

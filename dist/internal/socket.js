@@ -28,7 +28,7 @@ const SocketIO = __importStar(require("socket.io"));
 const server_1 = require("../server");
 exports.serverSocket = new SocketIO.Server(server_1.server, {
     cors: {
-        origin: ["http://127.0.0.1:3000", "http://localhost:3000"],
+        origin: ["http://127.0.0.1:3000", "http://localhost:3000", "http://127.0.0.1:2137"],
         methods: ["GET", "POST"],
         credentials: true,
     }

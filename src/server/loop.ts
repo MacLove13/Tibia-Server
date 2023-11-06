@@ -1,22 +1,26 @@
 import * as GameState from "@game/state";
 import { Spawn } from "@game/mob/spawn";
 
-var intervalHandle: ReturnType<typeof setInterval>;
+// @ts-ignore - Ignore the following TypeScript error
+var intervalHandle: NodeJS.Timer;
 var spawnList = new Array<Spawn>();
 
-export function Start() {
+export function Init() {
+    console.log("Server Loop Started");
     intervalHandle = setInterval(ServerInterval, 50);
 
     // Load Mobs from Data
     for (var i = 0; i < GameState.config.MobSpawns.length; i++) {
-        spawnList.push(new Spawn(GameState.config.MobSpawns[i].Position.x, GameState.config.MobSpawns[i].Position.y));
-        spawnList[i].MaintainMobCount(GameState.config.MobSpawns[i].Count);
-        spawnList[i].DefineMobsInSpawn(GameState.config.MobSpawns[i].Mobs);
+        var mobSpawn = GameState.config.MobSpawns[i];
+        var spawn = new Spawn(mobSpawn.Position.x, mobSpawn.Position.y);
+        spawnList.push(spawn);
+        spawnList[i].MaintainMobCount(mobSpawn.Count);
+        spawnList[i].DefineMobsInSpawn(mobSpawn.Mobs);
     }
 }
 
 export function Stop() {
-    if (intervalHandle) clearInterval(intervalHandle);
+    if (intervalHandle) clearInterval(intervalHandle as unknown as number);
 }
 
 function ServerInterval() {
