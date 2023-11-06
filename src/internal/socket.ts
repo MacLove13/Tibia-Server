@@ -1,20 +1,23 @@
-import { Server } from 'socket.io';
+import * as SocketIO from 'socket.io';
 import { server } from '../server';
+import { Player } from '@game/player';
 
-const serverSocket = new Server(server, {
+import { serverEvent } from '@events';
+
+export const serverSocket = new SocketIO.Server(server, {
   cors: {
-    origin: "http://localhost:3000", // Replace with your client's origin
+    origin: ["http://127.0.0.1:3000", "http://localhost:3000"], // Allowing both local addresses
     methods: ["GET", "POST"],
     credentials: true,
   }
 });
 
-serverSocket.on('connection', (socket) => {
-  console.log('A user connected');
-
-  socket.on('disconnect', () => {
-    console.log('A user disconnected');
-  });
+serverSocket.on('connect_error', (error) => {
+  console.error('Connection Error:', error);
 });
+
+// serverSocket.use((socket, next) => {
+//   next(new Error('Authentication error'));
+// });
 
 console.log('Socket Initialized');

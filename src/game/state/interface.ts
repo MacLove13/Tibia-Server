@@ -10,10 +10,10 @@ export interface Config {
     }
     MobSpawns: SpawnData[],
     Mobs: {
-        Dwarf: { AliveSprites: number[]; DeadSprites: number[], Experience: number };
-        Orc: { AliveSprites: number[]; DeadSprites: number[], Experience: number };
-        Minotaur: { AliveSprites: number[]; DeadSprites: number[], Experience: number };
-        Troll: { AliveSprites: number[]; DeadSprites: number[], Experience: number };
+        Dwarf: { AliveSprites: number[]; DeadSprites: number[], Experience: number, HP: number, Speed: number };
+        Orc: { AliveSprites: number[]; DeadSprites: number[], Experience: number, HP: number, Speed: number };
+        Minotaur: { AliveSprites: number[]; DeadSprites: number[], Experience: number, HP: number, Speed: number };
+        Troll: { AliveSprites: number[]; DeadSprites: number[], Experience: number, HP: number, Speed: number };
     };
     Animations: {
         Beam: {

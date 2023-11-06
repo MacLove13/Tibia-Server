@@ -45,6 +45,8 @@ const Map = __importStar(require("@game/map/load"));
 exports.app = (0, express_1.default)();
 exports.server = (0, http_1.createServer)(exports.app);
 require("@socket/socket");
+require("@game/map/update");
+require("@game/player/events/connection");
 function Initialize() {
     return __awaiter(this, void 0, void 0, function* () {
         console.log('Start server');

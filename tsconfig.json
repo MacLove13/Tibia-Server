@@ -10,6 +10,7 @@
     "strictPropertyInitialization": false,
     "paths": {
       "@socket/*": ["src/internal/*"],
+      "@events": ["src/internal/events.ts"],
       "@database/*": ["src/database/*"],
       "@game/*": ["src/game/*"],
       "@utils/*": ["src/utils/*"],

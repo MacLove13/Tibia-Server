@@ -2,7 +2,7 @@ export interface Tile {
   x: number;
   y: number;
   walkable: boolean;
-  tileType: string;
+  tileType: number;
   safeZone: boolean;
   owner: number;
   layer: number;
@@ -13,4 +13,3 @@ interface MapLayer {
 }
 
 export const mapLayers: MapLayer[] = [];
-

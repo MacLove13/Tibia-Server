@@ -18,7 +18,7 @@ class CharacterDataToSync {
             InLayer: this.InLayer,
         };
     }
-    constructor(race, uClass) {
+    constructor(race) {
         this.Position = { x: 60, y: 50 };
         this.Level = 5;
         this.CurrentExp = 0;
@@ -37,8 +37,9 @@ class CharacterDataToSync {
             ammo: null,
         };
         this.ID = CharacterDataToSync.lastID.toString();
+        /*
         this.Race = race;
-        this.UClass = uClass;
+        this.UClass = "";
         this.MaxExp = config.Player.LvlExp[this.Level];
         this.Speed = config.Mobs[this.Race].Speed;
         this.ExpAtDead = config.Mobs[this.Race].Experience;
@@ -59,6 +60,8 @@ class CharacterDataToSync {
             ammo: null,
         };
         this.InLayer = 0;
+
+        */
     }
 }
 exports.CharacterDataToSync = CharacterDataToSync;

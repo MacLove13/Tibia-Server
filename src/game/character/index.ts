@@ -1,4 +1,8 @@
+import { config } from '@game/state';
 
+type MobsConfig = {
+  [key: string]: { AliveSprites: number[]; DeadSprites: number[]; Experience: number; HP?: number };
+};
 
 export class CharacterDataToSync {
     Position = { x: 60, y: 50 };
@@ -27,7 +31,7 @@ export class CharacterDataToSync {
         ring: null,
         ammo: null,
     };
-    Backpack: Backpack;
+    // Backpack: Backpack;
     InLayer: 0;
 
     toJSON() {
@@ -47,10 +51,11 @@ export class CharacterDataToSync {
         };
     }
 
-    constructor(race : string, uClass: string) {
+    constructor(race : string) {
         this.ID = CharacterDataToSync.lastID.toString();
+        /*
         this.Race = race;
-        this.UClass = uClass;
+        this.UClass = "";
         this.MaxExp = config.Player.LvlExp[this.Level];
         this.Speed = config.Mobs[this.Race].Speed;
         this.ExpAtDead = config.Mobs[this.Race].Experience;
@@ -71,6 +76,8 @@ export class CharacterDataToSync {
             ammo: null,
         };
         this.InLayer = 0;
+
+        */
     }
 
     private static lastID = 0;

@@ -1,0 +1,1 @@
+{"version":3,"file":"events.js","sourceRoot":"/","sources":["internal/events.ts"],"names":[],"mappings":";;;;;;AAAA,oDAAkC;AAElC,MAAM,QAAS,SAAQ,gBAAY;CAAG;AACzB,QAAA,WAAW,GAAG,IAAI,QAAQ,EAAE,CAAC","sourcesContent":["import EventEmitter from 'events';\n\nclass EventBus extends EventEmitter {}\nexport const serverEvent = new EventBus();\n"]}

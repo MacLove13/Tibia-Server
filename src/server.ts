@@ -10,6 +10,9 @@ export const app = express();
 export const server = createServer(app);
 import '@socket/socket';
 
+import '@game/map/update';
+import '@game/player/events/connection';
+
 async function Initialize() {
   console.log('Start server');
   await Database.init();
