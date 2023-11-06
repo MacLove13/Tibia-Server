@@ -104,6 +104,10 @@ export class Player implements Character {
     }
 	}
 
+  UpdateExperience() {
+    serverSocket.sockets.emit("ApplyExperience", { ID: this.socket.id, Exp: this.syncData.CurrentExp });
+  }
+
   // @ts-ignore - Ignore the following TypeScript error
   Move(data: MoveData): void;
 
@@ -162,60 +166,7 @@ export class Player implements Character {
   UpdateEquipments(): void;
 
   // @ts-ignore - Ignore the following TypeScript error
-  // UpdateEnemyList(): void;
-
-  UpdateExperience() {
-    serverSocket.sockets.emit("ApplyExperience", { ID: this.socket.id, Exp: this.syncData.CurrentExp });
-  }
-
-  UpdateEnemyList() {
-    let count = 0;
-    let battleList: any[] = [];
-    let target = null;
-
-    if (this.targetChar != null) {
-      if (this.targetChar instanceof Player)
-        target = this.targetChar.syncData.ID;
-    }
-
-    GameState.characterList.ForEach((char: any) => {
-      if (char == this) return;
-      var dist = Geometry.GetDistance(this.syncData.Position, char.GetJSON().Position);
-      if (dist > 10) return;
-
-      battleList.push({
-        id: char.syncData.ID,
-        name: char.syncData.Race,
-        level: char.syncData.level,
-        hp: char.syncData.HP,
-        max_hp: char.syncData.MaxHP,
-        distance: dist,
-      })
-    });
-
-    if (battleList.length > 0 || this.targetChar != null) {
-      battleList.sort((a, b) => a.distance - b.distance);
-
-      this.socket.emit("BattleMenu", { ID: this.syncData.ID, Data: {
-          battleList: battleList,
-          TargetID: target,
-        }
-      });
-
-      this.activeEnemiesList = true;
-    }
-    else {
-      if (this.activeEnemiesList) {
-        this.socket.emit("BattleMenu", { ID: this.syncData.ID, Data: {
-            battleList: [],
-            TargetID: null,
-          }
-        });
-      }
-
-      this.activeEnemiesList = false;
-    }
-  }
+  UpdateEnemyList(): void;
 }
 
 import '@game/player/attack';

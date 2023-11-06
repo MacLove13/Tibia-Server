@@ -36,7 +36,6 @@ exports.Player = void 0;
 const dataSync_1 = require("@game/character/dataSync");
 const socket_1 = require("@socket/socket");
 const GameState = __importStar(require("@game/state"));
-const Geometry = __importStar(require("@utils/geometry"));
 var startSprites = ["Hero"];
 var playerClass = ["Warrior"];
 // import '@game/player/movimentation';
@@ -119,53 +118,8 @@ class Player {
             socket_1.serverSocket.sockets.emit("ApplyExperience", { ID: this.socket.id, Exp: this.syncData.CurrentExp });
         }
     }
-    // @ts-ignore - Ignore the following TypeScript error
-    // UpdateEnemyList(): void;
     UpdateExperience() {
         socket_1.serverSocket.sockets.emit("ApplyExperience", { ID: this.socket.id, Exp: this.syncData.CurrentExp });
-    }
-    UpdateEnemyList() {
-        let count = 0;
-        let battleList = [];
-        let target = null;
-        if (this.targetChar != null) {
-            if (this.targetChar instanceof Player)
-                target = this.targetChar.syncData.ID;
-        }
-        GameState.characterList.ForEach((char) => {
-            if (char == this)
-                return;
-            var dist = Geometry.GetDistance(this.syncData.Position, char.GetJSON().Position);
-            if (dist > 10)
-                return;
-            battleList.push({
-                id: char.syncData.ID,
-                name: char.syncData.Race,
-                level: char.syncData.level,
-                hp: char.syncData.HP,
-                max_hp: char.syncData.MaxHP,
-                distance: dist,
-            });
-        });
-        if (battleList.length > 0 || this.targetChar != null) {
-            battleList.sort((a, b) => a.distance - b.distance);
-            this.socket.emit("BattleMenu", { ID: this.syncData.ID, Data: {
-                    battleList: battleList,
-                    TargetID: target,
-                }
-            });
-            this.activeEnemiesList = true;
-        }
-        else {
-            if (this.activeEnemiesList) {
-                this.socket.emit("BattleMenu", { ID: this.syncData.ID, Data: {
-                        battleList: [],
-                        TargetID: null,
-                    }
-                });
-            }
-            this.activeEnemiesList = false;
-        }
     }
 }
 exports.Player = Player;

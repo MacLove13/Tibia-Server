@@ -25,6 +25,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const player_1 = require("@game/player");
 const GameState = __importStar(require("@game/state"));
+const Geometry = __importStar(require("@utils/geometry"));
 const socket_1 = require("@socket/socket");
 player_1.Player.prototype.Dispose = function () {
     // serverSocket.emit("DeleteCharacters", [this.syncData.ID]);
@@ -45,45 +46,47 @@ player_1.Player.prototype.SelfAnnouce = function () {
 player_1.Player.prototype.Sync = function () {
     this.socket.emit("PlayerStart", this.GetJSON());
 };
-// Player.prototype.UpdateEnemyList = function (): void {
-//   let count = 0;
-//   let battleList: any[] = [];
-//   let target = null;
-//   if (this.targetChar != null) {
-//     if (this.targetChar instanceof Player)
-//       target = this.targetChar.syncData.ID;
-//   }
-//   GameState.characterList.ForEach((char: any) => {
-//     if (char == this) return;
-//     var dist = Geometry.GetDistance(this.syncData.Position, char.GetJSON().Position);
-//     if (dist > 10) return;
-//     battleList.push({
-//       id: char.syncData.ID,
-//       name: char.syncData.Race,
-//       level: char.syncData.level,
-//       hp: char.syncData.HP,
-//       max_hp: char.syncData.MaxHP,
-//       distance: dist,
-//     })
-//   });
-//   if (battleList.length > 0 || this.targetChar != null) {
-//     battleList.sort((a, b) => a.distance - b.distance);
-//     this.socket.emit("BattleMenu", { ID: this.syncData.ID, Data: {
-//         battleList: battleList,
-//         TargetID: target,
-//       }
-//     });
-//     this.activeEnemiesList = true;
-//   }
-//   else {
-//     if (this.activeEnemiesList) {
-//       this.socket.emit("BattleMenu", { ID: this.syncData.ID, Data: {
-//           battleList: [],
-//           TargetID: null,
-//         }
-//       });
-//     }
-//     this.activeEnemiesList = false;
-//   }
-// }
+player_1.Player.prototype.UpdateEnemyList = function () {
+    let count = 0;
+    let battleList = [];
+    let target = null;
+    if (this.targetChar != null) {
+        if (this.targetChar instanceof player_1.Player)
+            target = this.targetChar.syncData.ID;
+    }
+    GameState.characterList.ForEach((char) => {
+        if (char == this)
+            return;
+        var dist = Geometry.GetDistance(this.syncData.Position, char.GetJSON().Position);
+        if (dist > 10)
+            return;
+        battleList.push({
+            id: char.syncData.ID,
+            name: char.syncData.Race,
+            level: char.syncData.level,
+            hp: char.syncData.HP,
+            max_hp: char.syncData.MaxHP,
+            distance: dist,
+        });
+    });
+    if (battleList.length > 0 || this.targetChar != null) {
+        battleList.sort((a, b) => a.distance - b.distance);
+        this.socket.emit("BattleMenu", { ID: this.syncData.ID, Data: {
+                battleList: battleList,
+                TargetID: target,
+            }
+        });
+        this.activeEnemiesList = true;
+    }
+    else {
+        if (this.activeEnemiesList) {
+            this.socket.emit("BattleMenu", { ID: this.syncData.ID, Data: {
+                    battleList: [],
+                    TargetID: null,
+                }
+            });
+        }
+        this.activeEnemiesList = false;
+    }
+};
 //# sourceMappingURL=index.js.map
