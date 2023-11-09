@@ -38,7 +38,7 @@ class Ground {
         const tile = map_1.mapLayers[layer].tiles.find(tile => tile.x === x && tile.y === y);
         if (!tile)
             return;
-        return tile.safeZone;
+        return tile.safe_zone;
     }
     HaveAnyTileToHover(layer, x, y) {
         if (map_1.mapLayers[layer] == undefined)

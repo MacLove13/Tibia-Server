@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sourceRoot":"/","sources":["game/item/index.ts"],"names":[],"mappings":";;AAAA,+BAA6B","sourcesContent":["import '@game/item/backpack';\n"]}

@@ -1,4 +1,4 @@
-import { MapTile } from '@game/map/map_tile';
+import { MapTile } from '@models/map_tile';
 import { mapLayers, Tile } from '@game/map/index';
 
 async function loadMap(layer: number) {
@@ -11,7 +11,7 @@ async function loadMap(layer: number) {
       tiles: tiles
     })
 
-    console.log('Loaded map Layer ' + layer + ", Tiles: " + tiles.length);
+    console.log('[LOAD] Loaded map Layer ' + layer + ", Tiles: " + tiles.length);
   } catch (error) {
     console.error('Erro ao buscar tiles:', error);
   }

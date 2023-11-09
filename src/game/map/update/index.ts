@@ -1,7 +1,7 @@
 import * as SocketIO from 'socket.io';
 import { serverSocket } from '@socket/socket';
 import { mapLayers } from '@game/map';
-import { MapTile } from '@game/map/map_tile';
+import { MapTile } from '@models/map_tile';
 import { Tile } from '@game/map';
 import { Player } from '@game/player';
 
@@ -35,15 +35,15 @@ async function UpdateTile(plr: Player, socket: SocketIO.Socket, layer: number, x
   } else {
     if (tileIndex > -1) {
       tiles[tileIndex].walkable = walkable;
-      tiles[tileIndex].tileType = tileType;
-      tiles[tileIndex].safeZone = safeZone;
+      tiles[tileIndex].tile_type = tileType;
+      tiles[tileIndex].safe_zone = safeZone;
     } else {
       tiles.push({
         x: x,
         y: y,
         walkable: walkable,
-        tileType: tileType,
-        safeZone: safeZone,
+        tile_type: tileType,
+        safe_zone: safeZone,
         owner: 0,
         layer: layer
       });
@@ -53,8 +53,8 @@ async function UpdateTile(plr: Player, socket: SocketIO.Socket, layer: number, x
       where: { x: x, y: y, layer: layer },
       defaults: {
         walkable: walkable,
-        tileType: tileType,
-        safeZone: safeZone,
+        tile_type: tileType,
+        safe_zone: safeZone,
         owner: 0,
         layer: layer
       }
@@ -63,8 +63,8 @@ async function UpdateTile(plr: Player, socket: SocketIO.Socket, layer: number, x
     if (!created) {
       mapTile.set({
         walkable: walkable,
-        tileType: tileType,
-        safeZone: safeZone,
+        tile_type: tileType,
+        safe_zone: safeZone,
         owner: 0,
         layer: layer
       });

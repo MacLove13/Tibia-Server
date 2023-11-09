@@ -1,27 +1,22 @@
 import { Player } from '@game/player';
-import { Character } from '@game/character/interface';
-import { serverSocket } from '@socket/socket';
-import * as GameState from '@game/state';
+import * as Model from '@models/character';
 
 Player.prototype.Save = function (): void {
-  /*
-  const query = 'UPDATE characters SET level = $2, experience = $3, health = $4, max_health = $5, position = $6, equipments = $7 WHERE uuid = $1';
-  const values = [
-    this.syncData.UUID,
-    this.syncData.Level,
-    this.syncData.CurrentExp,
-    this.syncData.HP,
-    this.syncData.MaxHP,
-    this.syncData.Position,
-    this.syncData.equipments
-  ];
-
-  db.query(query, values, (err, result) => {
-    if (err) {
-      return console.error('Erro ao executar consulta de atualização', err.stack);
+  console.log('Saving character')
+  Model.Character.update({
+    level: this.syncData.Level,
+    experience: this.syncData.CurrentExp,
+    health: this.syncData.HP,
+    max_health: this.syncData.MaxHP,
+    position: this.syncData.Position,
+    equipments: this.syncData.equipments
+  }, {
+    where: {
+      uuid: this.syncData.UUID
     }
-
-    console.log(`Player ${this.syncData.Name} salvo com sucesso. | ${result.rowCount}`);
+  }).then(result => {
+    console.log("Character saved");
+  }).catch(err => {
+    console.error('Erro ao atualizar:', err);
   });
-  */
 }

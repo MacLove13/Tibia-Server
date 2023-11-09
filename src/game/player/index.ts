@@ -167,8 +167,15 @@ export class Player implements Character {
 
   // @ts-ignore - Ignore the following TypeScript error
   UpdateEnemyList(): void;
+
+  // @ts-ignore - Ignore the following TypeScript error
+  Equip(slot, item, itemTemplate, backpackUuid?): void;
+
+  // @ts-ignore - Ignore the following TypeScript error
+  Unequip(slot, itemUuid, backpackUuid): void;
 }
 
+// Prototypes
 import '@game/player/attack';
 import '@game/player/equipments';
 import '@game/player/load';
@@ -176,4 +183,7 @@ import '@game/player/movement';
 import '@game/player/notification';
 import '@game/player/save';
 import '@game/player/stream';
+
+// Othes
+import '@game/player/initial';
 

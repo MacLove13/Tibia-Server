@@ -4,42 +4,36 @@ import { Player } from "@game/player";
 import { characterList } from "@game/state";
 import { serverSocket } from '@socket/socket';
 import { MoveData } from "@utils/interface";
-
-// import * as ItemTemplate from '../../Features/ItemTemplate/ItemTemplate';
+import * as ItemTemplate from '@game/item_template';
+import * as Item from '@game/item/find';
 
 export function OnConnection(plr: Player, socket: SocketIO.Socket) {
   socket.on("PlayerMove", function (data: MoveData) {
     plr.Move(data);
   });
 
-  socket.on("PlayerHeal", function (data: { Points: number }) {
+  socket.on("PlayerHeal", function (data: { Points: number; }) {
     plr.Heal(data.Points);
   });
 
-  socket.on("UseItem", function (data: { item_uuid: number, backpack_uuid: string }) {
-    // plr.UseItem(data);
+  socket.on("UseItem", async function (data: { item_uuid: string; backpack_uuid: string; }) {
+    const item = await Item.GetItemByUUID(data.item_uuid);
+    const itemTemplate = ItemTemplate.GetByID(item.item_template_id);
+
+    if (itemTemplate.type == 4)
+      plr.Equip('leftHand', item, itemTemplate, data.backpack_uuid);
   });
 
-  socket.on("EquipItem", function (data: { item_uuid: string }) {
+  socket.on("EquipItem", async function (data: { slot: string;  item_uuid: string; }) {
+    const item = await Item.GetItemByUUID(data.item_uuid);
+    const itemTemplate = ItemTemplate.GetByID(item.item_template_id);
 
-    // BackpackItem.findOne({
-    //   where: {
-    //     uuid: data.item_uuid
-    //   }
-    // }).then(item => {
-    //   if (item) {
-        
-    //     const itemTemplate = ItemTemplate.GetByID(item.item_template_id);
+    if (itemTemplate.type == 4 && data.slot == 'leftHand')
+      plr.Equip('leftHand', item, itemTemplate);
+  });
 
-    //     if (itemTemplate.Type == 4)
-    //         plr.Equip(item, itemTemplate);
-
-    //   } else {
-    //     console.log('Item não encontrado');
-    //   }
-    // }).catch(error => {
-    //   console.error('Erro ao buscar o item:', error);
-    // });
+  socket.on("UnequipItem", async function (data: { slot: string;  item_uuid: string; backpack_uuid: string; }) {
+    plr.Unequip(data.slot, data.item_uuid, data.backpack_uuid);
   });
 
   socket.on("PlayerMessage", function (data: { Msg: string }) {
@@ -58,6 +52,17 @@ export function OnConnection(plr: Player, socket: SocketIO.Socket) {
         plr.Untarget();
       }
     }
+  });
+
+  socket.on("Character:OpenEquippedBag", function () {
+    var plr = characterList.GetByID(socket.id);
+    if (!plr) return;
+
+    // @ts-ignore - Ignore the following TypeScript error
+    serverEvent.emit("Backpack:Open", {
+      socket: socket,
+      BackpackUUID: (plr as Player).syncData.equipments.bag
+    });
   });
 
 }

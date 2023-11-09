@@ -1,20 +1,21 @@
 import * as SocketIO from 'socket.io';
 import { characterList } from "@game/state";
 import { Player } from "@game/player";
-// import {db} from '../../database/connection';
 // import * as Backpack from '../../Features/Backpack/LoadBackpack';
+import { serverEvent } from '@events';
 
-import { PlayerDB } from "@game/player/database";
+import * as Model from "@models/character";
 
 export function LoadCharacter(plr: Player, socket: SocketIO.Socket, authcode: string) {
 
-  PlayerDB.findOne({ where: { id: 1 } })
+  Model.Character.findOne({ where: { id: 2 } })
   .then((char: any) => {
     if (!char) {
       console.log('Usuário não encontrado!');
       return;
     }
-    
+
+    plr.syncData.SqlID = char.id;
     plr.syncData.Name = char.name;
     plr.syncData.Level = char.level;
     plr.syncData.CurrentExp = char.experience;
@@ -39,6 +40,8 @@ export function LoadCharacter(plr: Player, socket: SocketIO.Socket, authcode: st
 
     plr.UpdateEquipments();
     plr.CheckSafeZone();
+
+    serverEvent.emit('user:connect', { player: plr, socket: socket });
   })
   .catch(err => {
     console.error('Erro ao buscar usuário:', err);

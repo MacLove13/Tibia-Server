@@ -40,7 +40,7 @@ export class Ground {
         const tile = mapLayers[layer].tiles.find(tile => tile.x === x && tile.y === y);
 
         if (!tile) return;
-        return tile.safeZone;
+        return tile.safe_zone;
     }
 
     HaveAnyTileToHover(layer: number, x: number, y: number) {

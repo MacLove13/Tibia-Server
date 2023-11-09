@@ -28,19 +28,22 @@ const player_1 = require("@game/player");
 const PlayerEvents = __importStar(require("@game/player/events"));
 const load_1 = require("@game/player/load");
 const Map = __importStar(require("@game/map/update"));
+const GameState = __importStar(require("@game/state"));
 socket_1.serverSocket.on('connection', (socket) => {
     console.log('A user connected');
     var plr = new player_1.Player(socket);
     PlayerEvents.OnConnection(plr, socket);
     Map.OnConnection(plr, socket);
     // CharacterEvents.OnConnection(plr, socket);
-    // serverEvent.emit('user:connect', );
     socket.on("onPlayerConnect", function (data) {
-        console.log('onPlayerConnect');
         (0, load_1.LoadCharacter)(plr, socket, data.Auth);
     });
     socket.on('disconnect', () => {
-        console.log('A user disconnected');
+        var char = GameState.characterList.RemoveByID(socket.id);
+        if (char instanceof player_1.Player) {
+            char.Disconnect();
+            console.log("Character Disconnected", socket.id);
+        }
     });
 });
 //# sourceMappingURL=connection.js.map

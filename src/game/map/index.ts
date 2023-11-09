@@ -2,8 +2,8 @@ export interface Tile {
   x: number;
   y: number;
   walkable: boolean;
-  tileType: number;
-  safeZone: boolean;
+  tile_type: number;
+  safe_zone: boolean;
   owner: number;
   layer: number;
 }

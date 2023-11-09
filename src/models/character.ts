@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import * as Database from '@database/connection';
 
-export const PlayerDB = Database.db.define('character', {
+export const Character = Database.db.define('character', {
   uuid: DataTypes.STRING,
   account_id: DataTypes.INTEGER,
   name: DataTypes.STRING,
@@ -14,7 +14,6 @@ export const PlayerDB = Database.db.define('character', {
   speed: DataTypes.INTEGER,
   equipments: DataTypes.JSON,
   position: DataTypes.JSON,
-  backpacks_id: DataTypes.INTEGER,
   createdAt: {
     type: DataTypes.DATE,
     field: 'created_at',

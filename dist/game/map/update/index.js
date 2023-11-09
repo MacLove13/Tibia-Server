@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.OnConnection = void 0;
 const socket_1 = require("@socket/socket");
 const map_1 = require("@game/map");
-const map_tile_1 = require("@game/map/map_tile");
+const map_tile_1 = require("@models/map_tile");
 function OnConnection(plr, socket) {
     const playerLayer = plr.syncData.InLayer;
     socket.emit("Game:UpdateMap", { Layer: 0, Map: map_1.mapLayers[0] });
@@ -42,16 +42,16 @@ function UpdateTile(plr, socket, layer, x, y, walkable, tileType, safeZone) {
         else {
             if (tileIndex > -1) {
                 tiles[tileIndex].walkable = walkable;
-                tiles[tileIndex].tileType = tileType;
-                tiles[tileIndex].safeZone = safeZone;
+                tiles[tileIndex].tile_type = tileType;
+                tiles[tileIndex].safe_zone = safeZone;
             }
             else {
                 tiles.push({
                     x: x,
                     y: y,
                     walkable: walkable,
-                    tileType: tileType,
-                    safeZone: safeZone,
+                    tile_type: tileType,
+                    safe_zone: safeZone,
                     owner: 0,
                     layer: layer
                 });
@@ -60,8 +60,8 @@ function UpdateTile(plr, socket, layer, x, y, walkable, tileType, safeZone) {
                 where: { x: x, y: y, layer: layer },
                 defaults: {
                     walkable: walkable,
-                    tileType: tileType,
-                    safeZone: safeZone,
+                    tile_type: tileType,
+                    safe_zone: safeZone,
                     owner: 0,
                     layer: layer
                 }
@@ -69,8 +69,8 @@ function UpdateTile(plr, socket, layer, x, y, walkable, tileType, safeZone) {
             if (!created) {
                 mapTile.set({
                     walkable: walkable,
-                    tileType: tileType,
-                    safeZone: safeZone,
+                    tile_type: tileType,
+                    safe_zone: safeZone,
                     owner: 0,
                     layer: layer
                 });

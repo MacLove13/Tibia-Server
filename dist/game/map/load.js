@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.init = void 0;
-const map_tile_1 = require("@game/map/map_tile");
+const map_tile_1 = require("@models/map_tile");
 const index_1 = require("@game/map/index");
 function loadMap(layer) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -21,7 +21,7 @@ function loadMap(layer) {
             index_1.mapLayers.push({
                 tiles: tiles
             });
-            console.log('Loaded map Layer ' + layer + ", Tiles: " + tiles.length);
+            console.log('[LOAD] Loaded map Layer ' + layer + ", Tiles: " + tiles.length);
         }
         catch (error) {
             console.error('Erro ao buscar tiles:', error);

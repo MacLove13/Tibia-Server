@@ -4,6 +4,7 @@ import { Player } from "@game/player";
 import * as PlayerEvents from '@game/player/events';
 import { LoadCharacter } from '@game/player/load';
 import * as Map from '@game/map/update';
+import * as GameState from '@game/state';
 
 serverSocket.on('connection', (socket: SocketIO.Socket) => {
   console.log('A user connected');
@@ -14,14 +15,15 @@ serverSocket.on('connection', (socket: SocketIO.Socket) => {
   Map.OnConnection(plr, socket);
   // CharacterEvents.OnConnection(plr, socket);
 
-  // serverEvent.emit('user:connect', );
-
   socket.on("onPlayerConnect", function (data: { Auth: string }) {
-    console.log('onPlayerConnect');
     LoadCharacter(plr, socket, data.Auth);
   });
 
   socket.on('disconnect', () => {
-    console.log('A user disconnected');
+    var char = GameState.characterList.RemoveByID(socket.id);
+    if (char instanceof Player) {
+      char.Disconnect();
+      console.log("Character Disconnected", socket.id);
+    }
   });
 });

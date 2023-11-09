@@ -123,6 +123,7 @@ class Player {
     }
 }
 exports.Player = Player;
+// Prototypes
 require("@game/player/attack");
 require("@game/player/equipments");
 require("@game/player/load");
@@ -130,4 +131,6 @@ require("@game/player/movement");
 require("@game/player/notification");
 require("@game/player/save");
 require("@game/player/stream");
+// Othes
+require("@game/player/initial");
 //# sourceMappingURL=index.js.map

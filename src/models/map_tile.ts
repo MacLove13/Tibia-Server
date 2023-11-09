@@ -1,12 +1,12 @@
 import { DataTypes } from 'sequelize';
 import * as Database from '@database/connection';
 
-export const MapTile = Database.db.define('map_tile', {
+export const MapTile = Database.db.define('map_tiles', {
   x: DataTypes.INTEGER,
   y: DataTypes.INTEGER,
   walkable: DataTypes.BOOLEAN,
-  tileType: DataTypes.STRING,
-  safeZone: DataTypes.BOOLEAN,
+  tile_type: DataTypes.STRING,
+  safe_zone: DataTypes.BOOLEAN,
   owner: DataTypes.INTEGER,
   layer: DataTypes.INTEGER,
   createdAt: {

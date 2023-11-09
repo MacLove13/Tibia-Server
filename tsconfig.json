@@ -9,6 +9,7 @@
     "resolveJsonModule": true,
     "strictPropertyInitialization": false,
     "paths": {
+      "@models/*": ["src/models/*"],
       "@socket/*": ["src/internal/*"],
       "@events": ["src/internal/events.ts"],
       "@database/*": ["src/database/*"],
@@ -18,7 +19,13 @@
     },
     "sourceMap": true,
     "inlineSources": true,
-    "sourceRoot": "/"
+    "sourceRoot": "/",
+    "noImplicitAny": false,
+    "strictNullChecks": false,
+    "strict": false,
+    "strictFunctionTypes": false,
+    "strictBindCallApply": false,
+    "noImplicitThis": false
   },
   "include": [
     "src/**/*"

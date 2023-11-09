@@ -7,6 +7,7 @@ export class DataSync {
     Race: string;
     UClass: string;
     ID: string;
+    SqlID:number;
     UUID: string;
     HP: number;
     MaxHP: number;
