@@ -79,7 +79,7 @@ player_1.Player.prototype.AttackTarget = function () {
     this.LastAttackTime = Date.now();
 };
 player_1.Player.prototype.Hit = function (dmg) {
-    socket_1.serverSocket.sockets.emit("ApplyDommage", { AttackType: 0, TargetID: this.syncData.ID, HitPoints: dmg });
+    socket_1.serverSocket.sockets.emit("ApplyDamage", { AttackType: 0, TargetID: this.syncData.ID, HitPoints: dmg });
     this.syncData.HP -= dmg;
     if (this.syncData.HP <= 0) {
         this.Kill();

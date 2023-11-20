@@ -70,7 +70,7 @@ class Player {
     }
     Revive() {
         this.syncData.HP = this.syncData.MaxHP;
-        this.syncData.Position = { x: 73, y: 38 };
+        this.syncData.Position = { x: 60, y: 50 };
         socket_1.serverSocket.sockets.emit("SelfHeal", { TargetID: this.syncData.ID, Health: this.syncData.HP });
         this.socket.emit("CharacterTeleport", { ID: this.syncData.ID, Data: { Rot: 0, Pos: this.syncData.Position } });
     }

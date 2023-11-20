@@ -32,56 +32,28 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.LoadCharacter = void 0;
-const state_1 = require("@game/state");
-// import * as Backpack from '../../Features/Backpack/LoadBackpack';
-const _events_1 = require("@events");
-const authentication_1 = require("@game/player/load/authentication");
-const Model = __importStar(require("@models/character"));
-function LoadCharacter(plr, socket, authcode) {
+exports.GetCharacterByAuthCode = void 0;
+const Model = __importStar(require("@models/character_authentication"));
+function GetCharacterByAuthCode(authcode) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log("authcode: " + authcode);
-        console.log("Loading Character By Authcode");
-        const characterId = yield (0, authentication_1.GetCharacterByAuthCode)(authcode);
-        console.log("Character loaded. Id: " + characterId);
-        if (characterId == null) {
-            console.log("Character not founded by Code");
-            return;
-        }
-        Model.Character.findOne({ where: { id: characterId } })
+        console.log('GetCharacterByAuthCode called.');
+        let characterId = null;
+        yield Model.CharacterAuthentication.findOne({ where: { code: authcode } })
             .then((char) => {
             if (!char) {
-                console.log('Usuário não encontrado!');
-                return;
+                console.log('Auth Code not founded.');
             }
-            plr.syncData.SqlID = char.id;
-            plr.syncData.Name = char.name;
-            plr.syncData.Level = char.level;
-            plr.syncData.CurrentExp = char.experience;
-            plr.syncData.UUID = char.uuid;
-            plr.syncData.HP = char.health;
-            plr.syncData.MaxHP = char.max_health;
-            plr.syncData.Speed = char.speed;
-            plr.syncData.Race = char.skin_name;
-            plr.syncData.Position = char.position;
-            plr.syncData.equipments = char.equipments;
-            plr.Sync();
-            socket.emit("NewCharacters", state_1.characterList.GetAllSyncData());
-            plr.SelfAnnouce();
-            state_1.characterList.AddNewPlayer(plr);
-            plr.UpdateExperience();
-            plr.sendNotification({
-                Title: 'Tibia on Rails',
-                Content: 'Bem vindo a Alpha v0.1'
-            });
-            plr.UpdateEquipments();
-            plr.CheckSafeZone();
-            _events_1.serverEvent.emit('user:connect', { player: plr, socket: socket });
+            else {
+                console.log(".character_id " + char.character_id);
+                console.log('GetCharacterByAuthCode success.');
+                characterId = char.character_id;
+            }
         })
             .catch(err => {
             console.error('Erro ao buscar usuário:', err);
         });
+        return characterId;
     });
 }
-exports.LoadCharacter = LoadCharacter;
-//# sourceMappingURL=index.js.map
+exports.GetCharacterByAuthCode = GetCharacterByAuthCode;
+//# sourceMappingURL=authentication.js.map

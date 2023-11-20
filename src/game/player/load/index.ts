@@ -3,12 +3,24 @@ import { characterList } from "@game/state";
 import { Player } from "@game/player";
 // import * as Backpack from '../../Features/Backpack/LoadBackpack';
 import { serverEvent } from '@events';
+import { GetCharacterByAuthCode } from '@game/player/load/authentication';
 
 import * as Model from "@models/character";
 
-export function LoadCharacter(plr: Player, socket: SocketIO.Socket, authcode: string) {
+export async function LoadCharacter(plr: Player, socket: SocketIO.Socket, authcode: string) {
 
-  Model.Character.findOne({ where: { id: 2 } })
+  console.log("authcode: " + authcode)
+  console.log("Loading Character By Authcode")
+  const characterId = await GetCharacterByAuthCode(authcode);
+
+  console.log("Character loaded. Id: " + characterId);
+  if (characterId == null) {
+    console.log("Character not founded by Code");
+    return;
+  }
+
+
+  Model.Character.findOne({ where: { id: characterId } })
   .then((char: any) => {
     if (!char) {
       console.log('Usuário não encontrado!');

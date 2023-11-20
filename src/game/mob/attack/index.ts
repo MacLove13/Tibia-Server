@@ -35,7 +35,7 @@ Mob.prototype.AttackTarget = function (): void {
 }
 
 Mob.prototype.Hit = function (dmg: number): { Exp: number } | undefined {
-  serverSocket.sockets.emit("ApplyDommage", { AttackType: 0, TargetID: this.syncData.ID, HitPoints: dmg });
+  serverSocket.sockets.emit("ApplyDamage", { AttackType: 0, TargetID: this.syncData.ID, HitPoints: dmg });
   this.syncData.HP -= dmg;
   if (this.syncData.HP <= 0) {
     this.Kill();
