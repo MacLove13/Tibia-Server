@@ -38,6 +38,8 @@ const item_template_1 = require("@models/item_template");
 function GetItemByUUID(uuid) {
     return __awaiter(this, void 0, void 0, function* () {
         let result = null;
+        if (uuid == null)
+            return null;
         yield Model.Item.findOne({ where: { uuid: uuid } })
             .then((item) => {
             result = item;

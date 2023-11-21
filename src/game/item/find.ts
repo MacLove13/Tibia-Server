@@ -4,6 +4,8 @@ import { ItemTemplate } from '@models/item_template';
 export async function GetItemByUUID(uuid: string) {
   let result = null;
 
+  if (uuid == null) return null;
+
   await Model.Item.findOne({ where: { uuid: uuid } })
   .then((item: any) => {
     result = item;
