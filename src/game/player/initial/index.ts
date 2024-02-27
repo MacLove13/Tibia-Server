@@ -4,20 +4,23 @@ import { serverEvent } from '@events';
 import { Player } from '@game/player';
 import * as ItemTemplate from '@game/item_template';
 
-function createInitialItems(data: { player: Player, socket: SocketIO.Socket }) {
+const BACKPACK_ITEMTEMPLATE_ID = 2;
 
-  const backpack = ItemTemplate.GetByID(1);
+function createInitialItems(player: Player, socket: SocketIO.Socket) {
+
+  if (player.syncData.equipments != null) return;
+  const backpack = ItemTemplate.GetByID(BACKPACK_ITEMTEMPLATE_ID);
 
   if (!backpack || !backpack.id) {
     throw new Error('Backpack não encontrado ou ID não está definido.');
   }
 
   Model.Item.create({
-    character_id: data.player.syncData.SqlID,
+    character_id: player.syncData.SqlID,
     item_template_id: backpack.id,
     quantity: 1
   }).then((item: any) => {
-    data.player.syncData.equipments = {
+    player.syncData.equipments = {
       helmet: null,
       amulet: null,
       bag: item.uuid,
@@ -30,9 +33,10 @@ function createInitialItems(data: { player: Player, socket: SocketIO.Socket }) {
       ammo: null,
     };
 
-    data.player.Save();
+    player.Save();
   }).catch(error => {
-    data.player.syncData.equipments = {
+    console.log(error)
+    player.syncData.equipments = {
       helmet: null,
       amulet: null,
       bag: null,
@@ -49,4 +53,4 @@ function createInitialItems(data: { player: Player, socket: SocketIO.Socket }) {
   
 }
 
-// serverEvent.on('user:connect', createInitialItems);
+serverEvent.on('user:connect', createInitialItems);

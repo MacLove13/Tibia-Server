@@ -32,12 +32,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Player = void 0;
+exports.Player = exports.allPlayers = void 0;
 const dataSync_1 = require("@game/character/dataSync");
 const socket_1 = require("@socket/socket");
 const GameState = __importStar(require("@game/state"));
 var startSprites = ["Hero"];
 var playerClass = ["Warrior"];
+exports.allPlayers = [];
 // import '@game/player/movimentation';
 // import '@game/player/attack';
 class Player {
@@ -47,11 +48,25 @@ class Player {
         this.activeEnemiesList = false;
         this.inSafeZone = false;
         this.mainBackpackId = 0;
+        this.conversations = [];
         this.syncData = new dataSync_1.DataSync(startSprites[(Math.random() * startSprites.length) | 0], playerClass[(Math.random() * playerClass.length) | 0]);
         this.syncData.Position = { x: 60, y: 50 };
         this.syncData.ID = socket.id;
         this.socket = socket;
         this.intervalEnemies = setInterval(() => this.UpdateEnemyList(), 200);
+    }
+    AddPlayerList() {
+        var existent = exports.allPlayers.find(x => x.syncData.ID === this.syncData.ID);
+        if (existent != undefined)
+            return;
+        exports.allPlayers.push(this);
+        console.log('PlayerList Updated - Connect');
+        console.log(exports.allPlayers.length);
+    }
+    RemovePlayerList() {
+        exports.allPlayers = exports.allPlayers.filter(x => x.syncData.ID !== this.syncData.ID);
+        console.log('PlayerList Updated - Disconnect');
+        console.log(exports.allPlayers.length);
     }
     GetID() {
         return this.syncData.ID;

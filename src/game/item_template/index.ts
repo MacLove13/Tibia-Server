@@ -48,6 +48,10 @@ export class ItemTemplate {
     }
 }
 
+export function RemoveAllItemTemplates() {
+  serverItemTemplates = Array<any>();
+}
+
 export function GetByID(id: number) {
   return serverItemTemplates.find(item => item.id == id);
 }

@@ -5,6 +5,7 @@ import { Player } from "@game/player";
 import { serverEvent } from '@events';
 import { GetCharacterByAuthCode } from '@game/player/load/authentication';
 
+import * as Chat from '@game/chat';
 import * as Model from "@models/character";
 
 export async function LoadCharacter(plr: Player, socket: SocketIO.Socket, authcode: string) {
@@ -53,7 +54,11 @@ export async function LoadCharacter(plr: Player, socket: SocketIO.Socket, authco
     plr.UpdateEquipments();
     plr.CheckSafeZone();
 
-    serverEvent.emit('user:connect', { player: plr, socket: socket });
+    plr.AddPlayerList();
+
+    serverEvent.emit('user:connect', plr, socket);
+
+    // Chat.OnConnection(plr, socket);
   })
   .catch(err => {
     console.error('Erro ao buscar usuário:', err);

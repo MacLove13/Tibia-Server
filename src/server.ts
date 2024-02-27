@@ -17,4 +17,7 @@ app.get('/health', (req, res) => {
   res.send('WebSocket Server is running.');
 });
 
+import '@game/chat';
+import '@game/admin/commands';
+
 import './sentry';

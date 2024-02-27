@@ -76,7 +76,9 @@ function LoadCharacter(plr, socket, authcode) {
             });
             plr.UpdateEquipments();
             plr.CheckSafeZone();
-            _events_1.serverEvent.emit('user:connect', { player: plr, socket: socket });
+            plr.AddPlayerList();
+            _events_1.serverEvent.emit('user:connect', plr, socket);
+            // Chat.OnConnection(plr, socket);
         })
             .catch(err => {
             console.error('Erro ao buscar usuário:', err);

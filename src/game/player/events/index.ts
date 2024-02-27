@@ -64,7 +64,6 @@ export function OnConnection(plr: Player, socket: SocketIO.Socket) {
       BackpackUUID: (plr as Player).syncData.equipments.bag
     });
   });
-
 }
 
 

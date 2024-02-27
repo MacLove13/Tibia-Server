@@ -8,6 +8,8 @@ import * as Geometry from '@utils/geometry';
 var startSprites = ["Hero"];
 var playerClass = ["Warrior"];
 
+export var allPlayers = [];
+
 // import '@game/player/movimentation';
 // import '@game/player/attack';
 
@@ -21,6 +23,7 @@ export class Player implements Character {
   activeEnemiesList = false; 
   inSafeZone = false;
   mainBackpackId = 0;
+  conversations = [];
 
   constructor(socket: SocketIO.Socket) {
     this.syncData = new DataSync(startSprites[(Math.random() * startSprites.length) | 0], playerClass[(Math.random() * playerClass.length) | 0]);
@@ -28,6 +31,23 @@ export class Player implements Character {
     this.syncData.ID = socket.id;
     this.socket = socket;
     this.intervalEnemies = setInterval(() => this.UpdateEnemyList(), 200);
+  }
+
+  AddPlayerList(): void {
+    var existent = allPlayers.find(x => x.syncData.ID === this.syncData.ID)
+    if (existent != undefined) return;
+
+    allPlayers.push(this);
+
+    console.log('PlayerList Updated - Connect')
+    console.log(allPlayers.length)
+  }
+
+  RemovePlayerList(): void {
+    allPlayers = allPlayers.filter(x => x.syncData.ID !== this.syncData.ID)
+
+    console.log('PlayerList Updated - Disconnect')
+    console.log(allPlayers.length)
   }
 
   GetID(): string {

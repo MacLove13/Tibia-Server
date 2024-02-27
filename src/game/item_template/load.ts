@@ -1,7 +1,10 @@
 import * as Model from '@models/item_template';
-import { ItemTemplate } from '@game/item_template';
+import { ItemTemplate, RemoveAllItemTemplates } from '@game/item_template';
 
-export async function Init() {
+export async function Init(reload = false) {
+  if (reload)
+    RemoveAllItemTemplates();
+
   try {
     const itemTemplates = await Model.ItemTemplate.findAll({
       where: { }

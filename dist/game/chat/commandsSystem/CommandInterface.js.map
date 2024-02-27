@@ -1,0 +1,1 @@
+{"version":3,"file":"CommandInterface.js","sourceRoot":"/","sources":["game/chat/commandsSystem/CommandInterface.ts"],"names":[],"mappings":"","sourcesContent":["export interface Command {\n  name: string;\n  alias?: string;\n  execute(sender: any, args: any): void;\n}\n"]}

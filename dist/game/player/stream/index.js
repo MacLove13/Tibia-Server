@@ -35,6 +35,7 @@ player_1.Player.prototype.Dispose = function () {
 };
 player_1.Player.prototype.Disconnect = function () {
     this.Save();
+    this.RemovePlayerList();
     socket_1.serverSocket.emit("DeleteCharacters", [this.syncData.ID]);
     GameState.ground.FreeCollision(this.syncData.InLayer, this.syncData.Position.x, this.syncData.Position.y);
     this.socket.disconnect();
@@ -51,14 +52,14 @@ player_1.Player.prototype.UpdateEnemyList = function () {
     let battleList = [];
     let target = null;
     if (this.targetChar != null) {
-        if (this.targetChar instanceof player_1.Player)
-            target = this.targetChar.syncData.ID;
+        // if (this.targetChar instanceof Player)
+        target = this.targetChar.syncData.ID;
     }
     GameState.characterList.ForEach((char) => {
         if (char == this)
             return;
         var dist = Geometry.GetDistance(this.syncData.Position, char.GetJSON().Position);
-        if (dist > 10)
+        if (dist > 12)
             return;
         battleList.push({
             id: char.syncData.ID,
@@ -67,13 +68,14 @@ player_1.Player.prototype.UpdateEnemyList = function () {
             hp: char.syncData.HP,
             max_hp: char.syncData.MaxHP,
             distance: dist,
+            target: char.syncData.ID == target,
+            test: target
         });
     });
     if (battleList.length > 0 || this.targetChar != null) {
         battleList.sort((a, b) => a.distance - b.distance);
         this.socket.emit("BattleMenu", { ID: this.syncData.ID, Data: {
-                battleList: battleList,
-                TargetID: target,
+                battleList: battleList
             }
         });
         this.activeEnemiesList = true;
@@ -81,8 +83,7 @@ player_1.Player.prototype.UpdateEnemyList = function () {
     else {
         if (this.activeEnemiesList) {
             this.socket.emit("BattleMenu", { ID: this.syncData.ID, Data: {
-                    battleList: [],
-                    TargetID: null,
+                    battleList: []
                 }
             });
         }

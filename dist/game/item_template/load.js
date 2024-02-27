@@ -35,8 +35,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Init = void 0;
 const Model = __importStar(require("@models/item_template"));
 const item_template_1 = require("@game/item_template");
-function Init() {
+function Init(reload = false) {
     return __awaiter(this, void 0, void 0, function* () {
+        if (reload)
+            (0, item_template_1.RemoveAllItemTemplates)();
         try {
             const itemTemplates = yield Model.ItemTemplate.findAll({
                 where: {}

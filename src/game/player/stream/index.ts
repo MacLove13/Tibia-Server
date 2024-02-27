@@ -14,7 +14,7 @@ Player.prototype.Dispose = function (): void {
 
 Player.prototype.Disconnect = function (): void {
 	this.Save();
-
+  this.RemovePlayerList();
   serverSocket.emit("DeleteCharacters", [this.syncData.ID]);
   GameState.ground.FreeCollision(this.syncData.InLayer, this.syncData.Position.x, this.syncData.Position.y);
   this.socket.disconnect();
@@ -35,14 +35,14 @@ Player.prototype.UpdateEnemyList = function (): void {
   let target = null;
 
   if (this.targetChar != null) {
-    if (this.targetChar instanceof Player)
-      target = this.targetChar.syncData.ID;
+    // if (this.targetChar instanceof Player)
+    target = this.targetChar.syncData.ID;
   }
 
   GameState.characterList.ForEach((char: any) => {
     if (char == this) return;
     var dist = Geometry.GetDistance(this.syncData.Position, char.GetJSON().Position);
-    if (dist > 10) return;
+    if (dist > 12) return;
 
     battleList.push({
       id: char.syncData.ID,
@@ -51,6 +51,8 @@ Player.prototype.UpdateEnemyList = function (): void {
       hp: char.syncData.HP,
       max_hp: char.syncData.MaxHP,
       distance: dist,
+      target: char.syncData.ID == target,
+      test: target
     })
   });
 
@@ -58,8 +60,7 @@ Player.prototype.UpdateEnemyList = function (): void {
     battleList.sort((a, b) => a.distance - b.distance);
 
     this.socket.emit("BattleMenu", { ID: this.syncData.ID, Data: {
-        battleList: battleList,
-        TargetID: target,
+        battleList: battleList
       }
     });
 
@@ -68,8 +69,7 @@ Player.prototype.UpdateEnemyList = function (): void {
   else {
     if (this.activeEnemiesList) {
       this.socket.emit("BattleMenu", { ID: this.syncData.ID, Data: {
-          battleList: [],
-          TargetID: null,
+          battleList: []
         }
       });
     }

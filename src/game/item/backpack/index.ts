@@ -12,6 +12,9 @@ export async function Open(data: { socket: SocketIO.Socket, BackpackUUID: string
   let item = await GetItemByUUID(data.BackpackUUID);
   let backpackTemplate = ItemTemplate.GetByID(item.item_template_id);
 
+  console.log("Load Item from Backpack:")
+  console.log(data.BackpackUUID)
+
   const rows = await Item.findAll({
     where: { inside_item: data.BackpackUUID }
   });

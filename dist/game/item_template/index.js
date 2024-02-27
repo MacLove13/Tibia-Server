@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GetByUUID = exports.GetByID = exports.ItemTemplate = exports.serverItemTemplates = void 0;
+exports.GetByUUID = exports.GetByID = exports.RemoveAllItemTemplates = exports.ItemTemplate = exports.serverItemTemplates = void 0;
 exports.serverItemTemplates = Array();
 class ItemTemplate {
     toJSON() {
@@ -31,6 +31,10 @@ class ItemTemplate {
     }
 }
 exports.ItemTemplate = ItemTemplate;
+function RemoveAllItemTemplates() {
+    exports.serverItemTemplates = Array();
+}
+exports.RemoveAllItemTemplates = RemoveAllItemTemplates;
 function GetByID(id) {
     return exports.serverItemTemplates.find(item => item.id == id);
 }

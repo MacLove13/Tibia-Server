@@ -24,18 +24,22 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Model = __importStar(require("@models/item"));
+const _events_1 = require("@events");
 const ItemTemplate = __importStar(require("@game/item_template"));
-function createInitialItems(data) {
-    const backpack = ItemTemplate.GetByID(1);
+const BACKPACK_ITEMTEMPLATE_ID = 2;
+function createInitialItems(player, socket) {
+    if (player.syncData.equipments != null)
+        return;
+    const backpack = ItemTemplate.GetByID(BACKPACK_ITEMTEMPLATE_ID);
     if (!backpack || !backpack.id) {
         throw new Error('Backpack não encontrado ou ID não está definido.');
     }
     Model.Item.create({
-        character_id: data.player.syncData.SqlID,
+        character_id: player.syncData.SqlID,
         item_template_id: backpack.id,
         quantity: 1
     }).then((item) => {
-        data.player.syncData.equipments = {
+        player.syncData.equipments = {
             helmet: null,
             amulet: null,
             bag: item.uuid,
@@ -47,9 +51,10 @@ function createInitialItems(data) {
             ring: null,
             ammo: null,
         };
-        data.player.Save();
+        player.Save();
     }).catch(error => {
-        data.player.syncData.equipments = {
+        console.log(error);
+        player.syncData.equipments = {
             helmet: null,
             amulet: null,
             bag: null,
@@ -63,5 +68,5 @@ function createInitialItems(data) {
         };
     });
 }
-// serverEvent.on('user:connect', createInitialItems);
+_events_1.serverEvent.on('user:connect', createInitialItems);
 //# sourceMappingURL=index.js.map

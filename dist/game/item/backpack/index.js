@@ -45,6 +45,8 @@ function Open(data) {
             return;
         let item = yield (0, find_1.GetItemByUUID)(data.BackpackUUID);
         let backpackTemplate = ItemTemplate.GetByID(item.item_template_id);
+        console.log("Load Item from Backpack:");
+        console.log(data.BackpackUUID);
         const rows = yield item_1.Item.findAll({
             where: { inside_item: data.BackpackUUID }
         });

@@ -41,5 +41,7 @@ Server.Start();
 exports.app.get('/health', (req, res) => {
     res.send('WebSocket Server is running.');
 });
+require("@game/chat");
+require("@game/admin/commands");
 require("./sentry");
 //# sourceMappingURL=server.js.map

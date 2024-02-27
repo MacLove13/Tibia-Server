@@ -16,6 +16,7 @@
       "@game/*": ["src/game/*"],
       "@utils/*": ["src/utils/*"],
       "@server/*": ["src/server/*"],
+      "@commands/*": ["src/game/chat/commandsSystem/*"],
     },
     "sourceMap": true,
     "inlineSources": true,
