@@ -28,6 +28,7 @@ export function OnConnection(plr: Player, socket: SocketIO.Socket) {
         await BackpackInteract.Update(plr, data.backpack_uuid);
         plr.textNotification(`Você usou um(a) ${itemTemplate.name}.`);
         plr.Heal(itemTemplate.healHP);
+        plr.Save();
       }
       else
         plr.textNotification(`Não foi possível utilizar um(a) ${itemTemplate.name} agora.`);

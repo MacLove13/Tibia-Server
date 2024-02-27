@@ -64,21 +64,28 @@ class Spawn {
                     targetChar.Untarget();
                 }
             }
-            var nearestPlr = this.getNearestPlayer(this.mobList[i]);
-            if (!nearestPlr)
-                return;
-            var plrPos = nearestPlr.GetJSON().Position;
-            var mobPos = this.mobList[i].GetJSON().Position;
-            var dist = Geometry.GetDistance(mobPos, plrPos);
-            if (!nearestPlr.inSafeZone) {
-                this.mobList[i].Target(nearestPlr);
-                this.mobList[i].AttackTarget();
+            if (this.mobList[i].syncData.Hostile && !this.mobList[i].syncData.Freezed) {
+                var nearestPlr = this.getNearestPlayer(this.mobList[i]);
+                if (!nearestPlr)
+                    return;
+                var plrPos = nearestPlr.GetJSON().Position;
+                var mobPos = this.mobList[i].GetJSON().Position;
+                var dist = Geometry.GetDistance(mobPos, plrPos);
+                if (!nearestPlr.inSafeZone) {
+                    this.mobList[i].Target(nearestPlr);
+                    this.mobList[i].AttackTarget();
+                }
+                if (dist < 7 && dist > 1.5 && !nearestPlr.inSafeZone) {
+                    this.mobList[i].MoveByVector({ x: mobPos.x - plrPos.x, y: mobPos.y - plrPos.y });
+                }
+                if (dist >= 7 || nearestPlr.inSafeZone) {
+                    this.mobList[i].IdleMoving();
+                }
             }
-            if (dist < 7 && dist > 1.5 && !nearestPlr.inSafeZone) {
-                this.mobList[i].MoveByVector({ x: mobPos.x - plrPos.x, y: mobPos.y - plrPos.y });
-            }
-            if (dist >= 7 || nearestPlr.inSafeZone) {
-                this.mobList[i].IdleMoving();
+            else {
+                if (!this.mobList[i].syncData.Freezed) {
+                    this.mobList[i].IdleMoving();
+                }
             }
         }
     }

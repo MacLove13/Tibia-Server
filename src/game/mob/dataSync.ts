@@ -15,6 +15,9 @@ export class mobDataSync {
     ExpAtDead: number;
     Attack: number;
     InLayer: number;
+    Freezed: boolean;
+    Rotation: number;
+    Hostile: boolean;
 
     toJSON() {
         return {
@@ -27,6 +30,9 @@ export class mobDataSync {
             Level: this.Level,
             Attack: this.Attack,
             InLayer: this.InLayer,
+            Freezed: this.Freezed,
+            Rotation: this.Rotation,
+            Hostile: this.Hostile,
         };
     }
 
@@ -43,6 +49,10 @@ export class mobDataSync {
         }
         this.Attack = 0;
         this.InLayer = 0;
+
+        this.Freezed = false;
+        this.Hostile = false;
+        this.Rotation = 0;
 
         mobDataSync.lastID++;
     }

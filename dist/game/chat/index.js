@@ -24,9 +24,11 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OnConnection = void 0;
+const player_1 = require("@game/player");
 const Time = __importStar(require("@utils/time"));
 const _events_1 = require("@events");
 const CommandRegistry_1 = require("./commandsSystem/CommandRegistry");
+const Geometry = __importStar(require("@utils/geometry"));
 _events_1.serverEvent.on('user:connect', OnConnection);
 function OnConnection(plr, socket) {
     const playerLayer = plr.conversations;
@@ -42,20 +44,21 @@ function OnConnection(plr, socket) {
         }
     });
     socket.on("chat:sendMessage", function (data) {
-        console.log("-- New message sended");
-        console.log("-- ChatID: " + data.chatId);
-        console.log("-- " + data.message);
-        plr.socket.emit("chat:sendMessage", { id: 0, messages: [
-                {
-                    id: data.chatId,
-                    sender: {
-                        id: plr.syncData.SqlID,
-                        name: plr.syncData.Name,
-                    },
-                    hour: Time.getHourAndMinute(),
-                    message: data.message
-                }
-            ] });
+        player_1.allPlayers.map(x => {
+            if (Geometry.GetDistance(plr.syncData.Position, x.syncData.Position) > 10)
+                return;
+            x.socket.emit("chat:sendMessage", { id: 0, messages: [
+                    {
+                        id: data.chatId,
+                        sender: {
+                            id: plr.syncData.SqlID,
+                            name: plr.syncData.Name,
+                        },
+                        hour: Time.getHourAndMinute(),
+                        message: data.message
+                    }
+                ] });
+        });
     });
     plr.socket.emit("chat:sendMessage", { id: 0, name: 'General', messages: [
             {
