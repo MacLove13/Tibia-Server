@@ -6,6 +6,8 @@ import { serverSocket } from '@socket/socket';
 import { MoveData } from "@utils/interface";
 import * as ItemTemplate from '@game/item_template';
 import * as Item from '@game/item/find';
+import * as Backpack from '@game/item/backpack/removeItem';
+import * as BackpackInteract from '@game/item/backpack';
 
 export function OnConnection(plr: Player, socket: SocketIO.Socket) {
   socket.on("PlayerMove", function (data: MoveData) {
@@ -19,6 +21,17 @@ export function OnConnection(plr: Player, socket: SocketIO.Socket) {
   socket.on("UseItem", async function (data: { item_uuid: string; backpack_uuid: string; }) {
     const item = await Item.GetItemByUUID(data.item_uuid);
     const itemTemplate = ItemTemplate.GetByID(item.item_template_id);
+
+    if (itemTemplate.type == 3) {
+      var result = await Backpack.RemoveItem(item.uuid, 1);
+      if (result) {
+        await BackpackInteract.Update(plr, data.backpack_uuid);
+        plr.textNotification(`Você usou um(a) ${itemTemplate.name}.`);
+        plr.Heal(itemTemplate.healHP);
+      }
+      else
+        plr.textNotification(`Não foi possível utilizar um(a) ${itemTemplate.name} agora.`);
+    }
 
     if (itemTemplate.type == 4)
       plr.Equip('leftHand', item, itemTemplate, data.backpack_uuid);

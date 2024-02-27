@@ -79,8 +79,15 @@ export class Player implements Character {
   }
 
   Heal(Points: number) {
+
+    console.log("Heal =-=-=-=-=-=-====-=-=-=-")
+    console.log(this.syncData.HP + " / " + this.syncData.MaxHP)
+    console.log(Points)
+
     var newLife = this.syncData.HP + Points;
     if (newLife > this.syncData.MaxHP) newLife = this.syncData.MaxHP;
+
+    console.log(newLife)
 
     this.syncData.HP = newLife;
 

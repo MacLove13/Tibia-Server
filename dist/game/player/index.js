@@ -90,9 +90,13 @@ class Player {
         this.socket.emit("CharacterTeleport", { ID: this.syncData.ID, Data: { Rot: 0, Pos: this.syncData.Position } });
     }
     Heal(Points) {
+        console.log("Heal =-=-=-=-=-=-====-=-=-=-");
+        console.log(this.syncData.HP + " / " + this.syncData.MaxHP);
+        console.log(Points);
         var newLife = this.syncData.HP + Points;
         if (newLife > this.syncData.MaxHP)
             newLife = this.syncData.MaxHP;
+        console.log(newLife);
         this.syncData.HP = newLife;
         socket_1.serverSocket.sockets.emit("SelfHeal", { TargetID: this.syncData.ID, Health: this.syncData.HP });
     }

@@ -10,11 +10,11 @@ export const RemoveItem = async (itemUuid: string, quantity: number) => {
       if ((item.quantity - quantity) > 0) {
         await item.update({ quantity: item.quantity - quantity });
         console.log(`Updated item with UUID ${itemUuid}: quantity decreased by ${quantity}.`);
-        result = true;
+        return true;
       } else {
         await item.destroy();
         console.log(`Deleted item with UUID ${itemUuid} from the database.`);
-        result = true;
+        return true;
       }
     } else {
       console.log(`Item with UUID ${itemUuid} not found.`);
@@ -36,7 +36,7 @@ export const RemoveFromBag = async (itemUuid: string, quantity: number) => {
       if ((item.quantity - quantity) >= 0 || 1 == 1) {
         await item.update({ inside_item: null });
         console.log(`Item UUID ${itemUuid}: removed from bag.`);
-        result = true;
+        return true;
       }
     } else {
       console.log(`Item with UUID ${itemUuid} not found.`);

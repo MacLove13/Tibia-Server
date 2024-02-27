@@ -38,6 +38,8 @@ const state_1 = require("@game/state");
 const socket_1 = require("@socket/socket");
 const ItemTemplate = __importStar(require("@game/item_template"));
 const Item = __importStar(require("@game/item/find"));
+const Backpack = __importStar(require("@game/item/backpack/removeItem"));
+const BackpackInteract = __importStar(require("@game/item/backpack"));
 function OnConnection(plr, socket) {
     socket.on("PlayerMove", function (data) {
         plr.Move(data);
@@ -49,6 +51,16 @@ function OnConnection(plr, socket) {
         return __awaiter(this, void 0, void 0, function* () {
             const item = yield Item.GetItemByUUID(data.item_uuid);
             const itemTemplate = ItemTemplate.GetByID(item.item_template_id);
+            if (itemTemplate.type == 3) {
+                var result = yield Backpack.RemoveItem(item.uuid, 1);
+                if (result) {
+                    yield BackpackInteract.Update(plr, data.backpack_uuid);
+                    plr.textNotification(`Você usou um(a) ${itemTemplate.name}.`);
+                    plr.Heal(itemTemplate.healHP);
+                }
+                else
+                    plr.textNotification(`Não foi possível utilizar um(a) ${itemTemplate.name} agora.`);
+            }
             if (itemTemplate.type == 4)
                 plr.Equip('leftHand', item, itemTemplate, data.backpack_uuid);
         });

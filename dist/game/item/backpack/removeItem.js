@@ -42,12 +42,12 @@ const RemoveItem = (itemUuid, quantity) => __awaiter(void 0, void 0, void 0, fun
             if ((item.quantity - quantity) > 0) {
                 yield item.update({ quantity: item.quantity - quantity });
                 console.log(`Updated item with UUID ${itemUuid}: quantity decreased by ${quantity}.`);
-                result = true;
+                return true;
             }
             else {
                 yield item.destroy();
                 console.log(`Deleted item with UUID ${itemUuid} from the database.`);
-                result = true;
+                return true;
             }
         }
         else {
@@ -68,7 +68,7 @@ const RemoveFromBag = (itemUuid, quantity) => __awaiter(void 0, void 0, void 0, 
             if ((item.quantity - quantity) >= 0 || 1 == 1) {
                 yield item.update({ inside_item: null });
                 console.log(`Item UUID ${itemUuid}: removed from bag.`);
-                result = true;
+                return true;
             }
         }
         else {
