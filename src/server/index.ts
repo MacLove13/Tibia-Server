@@ -14,7 +14,7 @@ export async function Start() {
   ServerLoop.Init();
 
   server.listen(2137, () => {
-    console.log('WebSocket server running on port 2137 (HTTPS).');
+    console.log('WebSocket server running on port 2137.');
   });
 }
 
