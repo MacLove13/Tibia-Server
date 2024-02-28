@@ -24,6 +24,8 @@
     "typescript": "^5.2.2"
   },
   "scripts": {
-    "dev": "nodemon && yarn sentry:sourcemaps"
+    "dev": "nodemon && yarn sentry:sourcemaps",
+    "build": "tsc",
+    "prod": "node dist/server.js"
   }
 }
