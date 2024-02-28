@@ -27,6 +27,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.server = exports.app = void 0;
+require('module-alias/register');
 const express_1 = __importDefault(require("express"));
 const http_1 = require("http");
 const dotenv_1 = __importDefault(require("dotenv"));

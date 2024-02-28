@@ -1,3 +1,5 @@
+require('module-alias/register');
+
 import express from 'express';
 import { createServer } from 'http';
 import dotenv from 'dotenv';
