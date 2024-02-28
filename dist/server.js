@@ -29,11 +29,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.server = exports.app = void 0;
 require('module-alias/register');
 const express_1 = __importDefault(require("express"));
-const http_1 = require("http");
+const fs = require('fs');
+const path = require('path');
+const https = __importStar(require("https"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 exports.app = (0, express_1.default)();
-exports.server = (0, http_1.createServer)(exports.app);
+const options = {
+    key: fs.readFileSync(path.join(__dirname, 'certs/privkey.pem')),
+    cert: fs.readFileSync(path.join(__dirname, 'certs/cert.pem'))
+};
+exports.server = https.createServer(options, exports.app);
+// export const server = createServer(options, app);
 require("@socket/socket");
 require("@game/map/update");
 require("@game/player/events/connection");
