@@ -71,7 +71,7 @@ mob_1.Mob.prototype.Kill = function () {
     socket_1.serverSocket.sockets.emit("Animation", {
         Sprites: GameState.config.Mobs[race].DeadSprites,
         Pos: this.syncData.Position,
-        TicksPerFrame: 2000
+        TicksPerFrame: 4000
     });
 };
 mob_1.Mob.prototype.CanAttack = function () {

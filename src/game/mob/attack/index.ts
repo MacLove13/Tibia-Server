@@ -54,7 +54,7 @@ Mob.prototype.Kill = function (): void {
   serverSocket.sockets.emit("Animation", {
     Sprites: GameState.config.Mobs[race].DeadSprites,
     Pos: this.syncData.Position,
-    TicksPerFrame: 2000
+    TicksPerFrame: 4000
   });
 }
 
