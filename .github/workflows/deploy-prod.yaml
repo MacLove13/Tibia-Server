@@ -28,9 +28,10 @@ jobs:
           nvm install 16
           rvm use 3.2.2
           nvm use 16
-          
+
           git pull
 
+          yarn install
           yarn run build
 
           sudo systemctl restart tibia_server.service
