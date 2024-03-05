@@ -78,6 +78,23 @@ export function OnConnection(plr: Player, socket: SocketIO.Socket) {
       BackpackUUID: (plr as Player).syncData.equipments.bag
     });
   });
+
+  socket.on("Backpack:JoinItem", function (data: {
+    moved_item: any,
+    join_in_item: any,
+    backpack_uuid: string
+  }) {
+    var plr = characterList.GetByID(socket.id);
+    if (!plr) return;
+
+    // @ts-ignore - Ignore the following TypeScript error
+    serverEvent.emit("Backpack:JoinItem", {
+      socket: socket,
+      moved_item: data.moved_item,
+      join_in_item: data.join_in_item,
+      backpack_uuid: data.backpack_uuid
+    });
+  });
 }
 
 

@@ -1,3 +1,4 @@
+import * as Str from '@utils/string';
 
 export let serverItemTemplates = Array<any>();
 
@@ -59,3 +60,21 @@ export function GetByID(id: number) {
 export function GetByUUID(uuid: string) {
   return serverItemTemplates.find(item => item.uuid == uuid);
 }
+
+export function GetByName(name) {
+  let closestMatch = null;
+  let smallestDistance = Infinity;
+  
+  serverItemTemplates.forEach(item => {
+    if (item.name.includes(name)) {
+      const distance = Str.levenshteinDistance(name, item.name);
+      if (distance < smallestDistance) {
+        smallestDistance = distance;
+        closestMatch = item;
+      }
+    }
+  });
+  
+  return closestMatch;
+}
+

@@ -4,6 +4,7 @@ import { Item } from '@models/item';
 import { characterList } from '@game/state';
 import * as ItemTemplate from '@game/item_template';
 import { GetItemByUUID, GetItemByID } from '@game/item/find';
+import * as BackpackInteract from '@game/item/backpack';
 
 export async function Open(data: { socket: SocketIO.Socket, BackpackUUID: string }) {
   var plr = characterList.GetByID(data.socket.id);
@@ -50,6 +51,36 @@ export async function Open(data: { socket: SocketIO.Socket, BackpackUUID: string
   plr.socket.emit('Character:ShowBag', { uuid: data.BackpackUUID, slots: backpackTemplate.slots, Data: itemList });
 }
 
+export async function JoinItem(data: {
+  socket: SocketIO.Socket,
+  moved_item: any,
+  join_in_item: any,
+  backpack_uuid: string
+}) {
+
+  console.log("Juntando Item")
+
+  var plr = characterList.GetByID(data.socket.id);
+  if (!plr) return;
+
+  let itemMoved = await GetItemByUUID(data.moved_item);
+  let itemToJoin = await GetItemByUUID(data.join_in_item);
+
+  let itemCount = itemToJoin.quantity + itemMoved.quantity;
+
+  if (itemCount >= 100) {
+    let reduceMovedQuantity = itemCount - 100;
+    await itemMoved.update({ quantity: reduceMovedQuantity });
+    await itemToJoin.update({ quantity: 100 });
+  }
+  else {
+    await itemToJoin.update({ quantity: itemCount });
+    await itemMoved.destroy();
+  }
+
+  await BackpackInteract.Update(plr, data.backpack_uuid);
+}
+
 export async function Update(player, backpackId) {
   let item = await GetItemByUUID(backpackId);
   let backpackTemplate = ItemTemplate.GetByID(item.item_template_id);
@@ -89,3 +120,4 @@ export async function Update(player, backpackId) {
 }
 
 serverEvent.on('Backpack:Open', Open);
+serverEvent.on('Backpack:JoinItem', JoinItem);

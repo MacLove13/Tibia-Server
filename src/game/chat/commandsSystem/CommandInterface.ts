@@ -1,5 +1,7 @@
 export interface Command {
   name: string;
   alias?: string;
-  execute(sender: any, args: any): void;
+  async?: boolean;
+  execute?(sender: any, args: any): void;
+  executeAsync?(sender: any, args: any): Promise<void>;
 }

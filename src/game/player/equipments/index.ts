@@ -62,16 +62,26 @@ Player.prototype.RecalculeAttackPower = async function (): Promise<void> {
 
 Player.prototype.Equip = async function (slot, item, itemTemplate, backpackUuid?): Promise<void> {
   const backpackUUID = item.inside_item;
+  console.log("============= Equip")
 
   try {
+    let result = false;
     if (this.syncData.equipments[slot] != null && backpackUuid) {
-      await BackpackAdd.AddItem(this.syncData.equipments[slot], backpackUuid);
+      result = await BackpackAdd.AddItem(this.syncData.equipments[slot], backpackUuid);
     }
     else if (this.syncData.equipments[slot] != null && !backpackUuid) {
-      await BackpackAdd.AddItem(this.syncData.equipments[slot], this.syncData.equipments['bag']);
+      result = await BackpackAdd.AddItem(this.syncData.equipments[slot], this.syncData.equipments['bag']);
     }
 
+    if (!result) {
+      console.log("Erro on unequip item")
+      return;
+    }
+
+    console.log('Removing item from bag')
     await Backpack.RemoveFromBag(item.uuid, 1);
+
+    console.log('Updating Item')
     await BackpackInteract.Update(this, backpackUUID);
 
     this.syncData.equipments[slot] = item.uuid;

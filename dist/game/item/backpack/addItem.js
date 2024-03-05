@@ -34,19 +34,38 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BackpackHaveFreeSlot = exports.AddItem = void 0;
 const Model = __importStar(require("@models/item"));
+const ModelIT = __importStar(require("@models/item_template"));
 const ItemFind = __importStar(require("@game/item/find"));
 const ItemTemplate = __importStar(require("@game/item_template"));
-const AddItem = (itemUuid, backpackUuid, quantity = 0) => __awaiter(void 0, void 0, void 0, function* () {
-    let result = false;
+const AddItem = (itemUuid, backpackUuid, item_template_id = null, quantity = 0) => __awaiter(void 0, void 0, void 0, function* () {
+    if (itemUuid == null) {
+        AddOrSumNewItem(itemUuid, backpackUuid, item_template_id, quantity);
+        return;
+    }
     try {
         const item = yield Model.Item.findOne({ where: { uuid: itemUuid } });
-        if (item) {
-            yield item.update({
-                inside_item: backpackUuid,
-                quantity: item.quantity + quantity
-            });
+        const itemTemplate = yield ModelIT.ItemTemplate.findOne({ where: {
+                id: item.item_template_id
+            }
+        });
+        if (item && itemTemplate) {
+            if (itemTemplate.mergeable) {
+                if (item.quantity + 1 <= 100) {
+                    yield item.update({
+                        inside_item: backpackUuid,
+                        quantity: item.quantity + quantity
+                    });
+                    return true;
+                }
+            }
+            else {
+                yield item.update({
+                    inside_item: backpackUuid,
+                    quantity: item.quantity
+                });
+            }
             console.log(`Item UUID ${itemUuid}: added to bag ${backpackUuid}.`);
-            result = true;
+            return true;
         }
         else {
             console.log(`Item with UUID ${itemUuid} not found.`);
@@ -58,6 +77,50 @@ const AddItem = (itemUuid, backpackUuid, quantity = 0) => __awaiter(void 0, void
     return false;
 });
 exports.AddItem = AddItem;
+const AddOrSumNewItem = (itemUuid, backpackUuid, item_template_id = null, quantity = 0) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const item = yield Model.Item.findOne({ where: {
+                item_template_id: item_template_id,
+                inside_item: backpackUuid
+            }
+        });
+        if (!item) {
+            yield CreateItem(item_template_id, quantity, backpackUuid);
+            return true;
+        }
+        const itemTemplate = yield ModelIT.ItemTemplate.findOne({ where: {
+                id: item.item_template_id
+            }
+        });
+        if (item && itemTemplate) {
+            if (item.quantity + 1 <= 100 && itemTemplate.mergeable) {
+                yield item.update({
+                    quantity: item.quantity + quantity
+                });
+                return true;
+            }
+        }
+        yield CreateItem(item_template_id, quantity, backpackUuid);
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+    return false;
+});
+const CreateItem = (item_template_id, quantity, inside_item) => __awaiter(void 0, void 0, void 0, function* () {
+    yield Model.Item.create({
+        item_template_id: item_template_id,
+        quantity: quantity,
+        inside_item: inside_item
+    }).then((item) => {
+        return true;
+    }).catch(error => {
+        console.log(error);
+        return false;
+    });
+});
 const BackpackHaveFreeSlot = (backpackUuid) => __awaiter(void 0, void 0, void 0, function* () {
     const item = yield ItemFind.GetItemByUUID(backpackUuid);
     const itemTemplate = ItemTemplate.GetByID(item.item_template_id);

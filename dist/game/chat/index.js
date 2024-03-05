@@ -37,7 +37,10 @@ function OnConnection(plr, socket) {
         console.log("Args: " + data.args);
         const command = CommandRegistry_1.CommandRegistry.getCommand(data.cmd);
         if (command) {
-            command.execute(plr, data.args);
+            if (command.async == false)
+                command.execute(plr, data.args);
+            else
+                command.executeAsync(plr, data.args);
         }
         else {
             console.log("Command not found.");

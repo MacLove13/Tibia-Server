@@ -17,7 +17,10 @@ export function OnConnection(plr: Player, socket: SocketIO.Socket) {
 
     const command = CommandRegistry.getCommand(data.cmd);
 	  if (command) {
-	    command.execute(plr, data.args);
+	  	if (command.async == false)
+	  	  command.execute(plr, data.args);
+	  	else
+	  		command.executeAsync(plr, data.args);
 	  } else {
 	    console.log("Command not found.");
 	  }

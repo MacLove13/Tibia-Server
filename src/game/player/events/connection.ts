@@ -16,6 +16,7 @@ serverSocket.on('connection', (socket: SocketIO.Socket) => {
   // CharacterEvents.OnConnection(plr, socket);
 
   socket.on("onPlayerConnect", function (data: { Auth: string }) {
+    console.log('Player connected')
     LoadCharacter(plr, socket, data.Auth);
   });
 

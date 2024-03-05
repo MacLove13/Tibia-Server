@@ -36,6 +36,7 @@ socket_1.serverSocket.on('connection', (socket) => {
     Map.OnConnection(plr, socket);
     // CharacterEvents.OnConnection(plr, socket);
     socket.on("onPlayerConnect", function (data) {
+        console.log('Player connected');
         (0, load_1.LoadCharacter)(plr, socket, data.Auth);
     });
     socket.on('disconnect', () => {

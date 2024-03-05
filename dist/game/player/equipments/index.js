@@ -90,14 +90,22 @@ player_1.Player.prototype.RecalculeAttackPower = function () {
 player_1.Player.prototype.Equip = function (slot, item, itemTemplate, backpackUuid) {
     return __awaiter(this, void 0, void 0, function* () {
         const backpackUUID = item.inside_item;
+        console.log("============= Equip");
         try {
+            let result = false;
             if (this.syncData.equipments[slot] != null && backpackUuid) {
-                yield BackpackAdd.AddItem(this.syncData.equipments[slot], backpackUuid);
+                result = yield BackpackAdd.AddItem(this.syncData.equipments[slot], backpackUuid);
             }
             else if (this.syncData.equipments[slot] != null && !backpackUuid) {
-                yield BackpackAdd.AddItem(this.syncData.equipments[slot], this.syncData.equipments['bag']);
+                result = yield BackpackAdd.AddItem(this.syncData.equipments[slot], this.syncData.equipments['bag']);
             }
+            if (!result) {
+                console.log("Erro on unequip item");
+                return;
+            }
+            console.log('Removing item from bag');
             yield Backpack.RemoveFromBag(item.uuid, 1);
+            console.log('Updating Item');
             yield BackpackInteract.Update(this, backpackUUID);
             this.syncData.equipments[slot] = item.uuid;
             this.textNotification(`Você equipou um(a) ${itemTemplate.name}.`);

@@ -106,6 +106,18 @@ function OnConnection(plr, socket) {
             BackpackUUID: plr.syncData.equipments.bag
         });
     });
+    socket.on("Backpack:JoinItem", function (data) {
+        var plr = state_1.characterList.GetByID(socket.id);
+        if (!plr)
+            return;
+        // @ts-ignore - Ignore the following TypeScript error
+        _events_1.serverEvent.emit("Backpack:JoinItem", {
+            socket: socket,
+            moved_item: data.moved_item,
+            join_in_item: data.join_in_item,
+            backpack_uuid: data.backpack_uuid
+        });
+    });
 }
 exports.OnConnection = OnConnection;
 //# sourceMappingURL=index.js.map

@@ -32,12 +32,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Update = exports.Open = void 0;
+exports.Update = exports.JoinItem = exports.Open = void 0;
 const _events_1 = require("@events");
 const item_1 = require("@models/item");
 const state_1 = require("@game/state");
 const ItemTemplate = __importStar(require("@game/item_template"));
 const find_1 = require("@game/item/find");
+const BackpackInteract = __importStar(require("@game/item/backpack"));
 function Open(data) {
     return __awaiter(this, void 0, void 0, function* () {
         var plr = state_1.characterList.GetByID(data.socket.id);
@@ -79,6 +80,28 @@ function Open(data) {
     });
 }
 exports.Open = Open;
+function JoinItem(data) {
+    return __awaiter(this, void 0, void 0, function* () {
+        console.log("Juntando Item");
+        var plr = state_1.characterList.GetByID(data.socket.id);
+        if (!plr)
+            return;
+        let itemMoved = yield (0, find_1.GetItemByUUID)(data.moved_item);
+        let itemToJoin = yield (0, find_1.GetItemByUUID)(data.join_in_item);
+        let itemCount = itemToJoin.quantity + itemMoved.quantity;
+        if (itemCount >= 100) {
+            let reduceMovedQuantity = itemCount - 100;
+            yield itemMoved.update({ quantity: reduceMovedQuantity });
+            yield itemToJoin.update({ quantity: 100 });
+        }
+        else {
+            yield itemToJoin.update({ quantity: itemCount });
+            yield itemMoved.destroy();
+        }
+        yield BackpackInteract.Update(plr, data.backpack_uuid);
+    });
+}
+exports.JoinItem = JoinItem;
 function Update(player, backpackId) {
     return __awaiter(this, void 0, void 0, function* () {
         let item = yield (0, find_1.GetItemByUUID)(backpackId);
@@ -115,4 +138,5 @@ function Update(player, backpackId) {
 }
 exports.Update = Update;
 _events_1.serverEvent.on('Backpack:Open', Open);
+_events_1.serverEvent.on('Backpack:JoinItem', JoinItem);
 //# sourceMappingURL=index.js.map

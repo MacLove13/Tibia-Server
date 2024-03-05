@@ -55,7 +55,7 @@ class mobDataSync {
         this.Attack = 0;
         this.InLayer = 0;
         this.Freezed = false;
-        this.Hostile = false;
+        this.Hostile = true;
         this.Rotation = 0;
         mobDataSync.lastID++;
     }
