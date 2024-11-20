@@ -1,3 +1,5 @@
+# Tibia on Rails (Server)
+
 This is a project I did for study purposes only.
 
 The project is a Tibia server in TypeScript with a functional Web-client in React.
