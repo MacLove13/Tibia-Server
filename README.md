@@ -15,3 +15,5 @@ https://github.com/MacLove13/Tibia-Web
 This project served as a beautiful inspiration
 
 https://github.com/Rikezenho/tibia-js-experiment
+
+https://github.com/krtr/TibiaJS
